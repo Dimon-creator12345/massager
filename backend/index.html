@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="wrapper">
+    <div onclick="{
+        let resultPrompt=prompt('Введите имя!');
+        if(resultPrompt){
+        user.name=resultPrompt;
+        b(); 
+    }}" id="root">Арторизация</div></div>
+    <script>
+const wrapper=document.getElementById('wrapper');
+    let dataUsers;
+    let user={}
+    let a = document.getElementById("root");
+    const fetchUsers=async ()=>{
+    let result=await fetch('http://192.168.1.103:8080/getUsers');
+    let data=await result.json();
+    dataUsers=data;
+    function renderUsers(){
+  dataUsers.map((item,index)=>{
+    let div=document.createElement('div');
+    div.className="user";
+    div.innerText=`${item.name}`;
+    wrapper.appendChild(div);
+  })
+}
+renderUsers();
+}
+    fetchUsers();
+   async function b() {
+    let response = await fetch('http://192.168.1.103:8080', {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify(user)
+    });
+    debugger;
+      }
+    </script>
+  </body>
+</html>
